@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InvoiceSystem.Main;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,15 @@ namespace InvoiceSystem
     /// </summary>
     public partial class App : Application
     {
+        //use for all database calls
+        internal static clsDataAccess db = new clsDataAccess();
+
+        public App()
+        {
+            InitializeComponent();
+
+            //invoice numbers start at 5000
+            clsInvoice invoice = clsMainLogic.GetInvoice(5000);
+        }
     }
 }
