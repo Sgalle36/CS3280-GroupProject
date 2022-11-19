@@ -7,6 +7,9 @@
         xmlns:Emit="clr-namespace:System.Reflection.Emit;assembly=System.Reflection.Emit.ILGeneration" x:Class="InvoiceSystem.Main.wndMain"
         mc:Ignorable="d"
         Title="wndMain" Height="450" Width="800">
+    <Window.DataContext>
+        <local:clsMainLogic/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -24,5 +27,47 @@
                 <MenuItem Header="_Edit Items" Click="ShowItemsWindow" />
             </MenuItem>
         </Menu>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                <Button Content="New Invoice" Click="NewInvoice"/>
+                <Button Content="Edit Invoice" Click="EditInvoice"/>
+                <Button Content="Save Changes" Click="SaveInvoice"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Invoice #"/>
+                    <Label Content="{Binding Invoice.InvoiceNum}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Date: "/>
+                    <TextBox Text="{Binding Invoice.InvoiceDate}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" 
+                  x:Name="DataGridInvoiceItems"
+                      ItemsSource="{Binding InvoiceItems, Mode=OneWay}"
+                  AutoGenerateColumns="False"
+                  >
+                <DataGrid.Columns>
+                    <DataGridComboBoxColumn x:Name="DataGridComboBoxItems"
+                                        Header="Item Code"
+                                        DisplayMemberPath="ItemCode"
+                                        SelectedValuePath="ItemCode"
+                                        ItemsSource="{Binding Items, Mode=OneWay}"
+                                        SelectedValueBinding="{Binding ItemCode, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Item Description" Binding="{Binding ItemDesc, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Item Cost" Binding="{Binding Cost, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>

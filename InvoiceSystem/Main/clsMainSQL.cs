@@ -3,9 +3,19 @@ using System.Reflection;
 
 namespace InvoiceSystem.Main
 {
+    /// <summary>
+    /// Main Window SQL
+    /// <author>Natalie Mueller</author>
+    /// </summary>
     internal static class clsMainSQL
     {
-        //- INSERT INTO Invoices (InvoiceDate, TotalCost) Values (#4/13/2018#, 100)
+        /// <summary>
+        /// Generates an SQL query to create a new invoice.
+        /// </summary>
+        /// <param name="InvoiceDate"></param>
+        /// <param name="TotalCost"></param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string CreateInvoice(DateOnly InvoiceDate, double TotalCost)
         {
             try
@@ -20,7 +30,14 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) Values (123, 1, 'AA')
+        /// <summary>
+        /// Generates an SQL query to add a new item to the specified invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <param name="LineItemNum">The invoice line item number</param>
+        /// <param name="ItemCode">The item code</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string AddItem(int InvoiceNum, int LineItemNum, string ItemCode)
         {
             try
@@ -35,7 +52,12 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE InvoiceNum = 123
+        /// <summary>
+        /// Generates an SQL query to get the information for the specified invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string GetInvoice(int InvoiceNum)
         {
             try
@@ -50,7 +72,12 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc WHERE LineItems.ItemCode = ItemDesc.ItemCode AND LineItems.InvoiceNum = 5000
+        /// <summary>
+        /// Generates an SQL query to get all of the items belonging to the specified invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string GetInvoiceItems(int InvoiceNum)
         {
             try
@@ -66,7 +93,11 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- SELECT ItemCode, ItemDesc, Cost from ItemDesc
+        /// <summary>
+        /// Generates an SQL query to get all available items for invoicing.
+        /// </summary>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string GetAllItems()
         {
             try
@@ -81,7 +112,13 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- UPDATE Invoices SET TotalCost = 1200 WHERE InvoiceNum = 123
+        /// <summary>
+        /// Generates an SQL query to update the total cost of the invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <param name="TotalCost"></param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string UpdateInvoiceCost(int InvoiceNum, double TotalCost)
         {
             try
@@ -96,7 +133,13 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- DELETE FROM LineItems, ItemDesc WHERE LineItems.ItemCode = ItemDesc.ItemCode AND InvoiceNum = 5000 AND ItemCode = 'A'
+        /// <summary>
+        /// Generates an SQL query to remove the specified item from the invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <param name="ItemCode">The item code</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string RemoveItem(int InvoiceNum, string ItemCode)
         {
             try
@@ -112,7 +155,12 @@ namespace InvoiceSystem.Main
             }
         }
 
-        //- DELETE FROM LineItems WHERE InvoiceNum = 5000
+        /// <summary>
+        /// Generates an SQL query to remove all items from the given invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
         public static string RemoveAllItems(int InvoiceNum)
         {
             try

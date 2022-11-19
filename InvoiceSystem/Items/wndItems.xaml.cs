@@ -53,7 +53,7 @@ namespace InvoiceSystem.Items
 
             try
             {
-                //InitializeComponent();
+                InitializeComponent();
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 resetWindow();
             }
@@ -275,6 +275,14 @@ namespace InvoiceSystem.Items
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
                 return bItemChanged;
             }
+        }
+
+        /// <summary>
+        /// Returns to the main window after this window closes.
+        /// </summary>
+        private void ShowMainWindow(object sender, EventArgs e)
+        {
+            App.ShowMainWindow();
         }
     }
 }
