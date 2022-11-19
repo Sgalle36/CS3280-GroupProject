@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Reflection;
-using GroupProject.Common;
 using System.Data;
 
 //This is the front end code for the search window
@@ -38,7 +37,7 @@ using System.Data;
 //    throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
 //}
 
-namespace GroupProject.Items
+namespace InvoiceSystem.Items
 {
     /// <summary>
     /// Interaction logic for wndItems.xaml
@@ -54,7 +53,7 @@ namespace GroupProject.Items
 
             try
             {
-                InitializeComponent();
+                //InitializeComponent();
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 resetWindow();
             }
@@ -107,13 +106,10 @@ namespace GroupProject.Items
                 List<clsItem> AllItems = new List<clsItem>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    clsItem item = new clsItem();
-                    item.sItemCode = dr[0].ToString();
-                    item.sItemDesc = dr[1].ToString();
-                    item.dCost = Convert.ToDouble(dr[2]);
-                    AllItems.Add(item);
+//populate rows
+
                 }
-                ItemTable.ItemsSource = AllItems;
+
             }
             catch (Exception ex)
             {

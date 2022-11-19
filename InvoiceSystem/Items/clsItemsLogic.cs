@@ -5,13 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using GroupProject.Common;
-using GroupProject.Main;
+using InvoiceSystem.Main;
 
 
 //This file has the business logic for the Items window
 
-namespace GroupProject.Items
+namespace InvoiceSystem.Items
 {
     /// <summary>
     /// Holds all the business logic for the search window

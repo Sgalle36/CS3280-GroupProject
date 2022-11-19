@@ -7,7 +7,7 @@ using System.Reflection;
 
 //This file has the SQL queries required for the items window
 
-namespace GroupProject.Items
+namespace InvoiceSystem.Items
 {
     /// <summary>
     /// Holds all required SQL queries for the Items window
