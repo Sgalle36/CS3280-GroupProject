@@ -106,7 +106,7 @@ namespace InvoiceSystem.Items
                 List<clsItem> AllItems = new List<clsItem>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-//populate rows
+                    //populate rows
 
                 }
 
@@ -222,7 +222,7 @@ namespace InvoiceSystem.Items
                         return;
                     }
                     clsItemsLogic.EditItem(CodeBox.Text, CostBox.Text, DescBox.Text);
-                    
+
                 }
                 resetWindow();
                 bAddTrue = false;

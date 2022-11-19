@@ -36,15 +36,15 @@ namespace InvoiceSystem.Main
         /// </summary>
         private void ShowSearchWindow(object sender, RoutedEventArgs e)
         {
-            App.ShowSearchWindow();
+            App.ShowSearchWindow(this);
         }
 
         /// <summary>
         /// Hide the current window and show the items window
         /// </summary>
         private void ShowItemsWindow(object sender, RoutedEventArgs e)
-        {
-            App.ShowItemsWindow();
+        {   
+            App.ShowItemsWindow(this);
         }
 
         /// <summary>

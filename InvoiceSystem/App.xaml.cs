@@ -13,22 +13,17 @@ namespace InvoiceSystem
 {
     /// <summary>
     /// Interaction logic for App.xaml
-    /// <author>Natalie Mueller</author>
     /// </summary>
     public partial class App : Application
     {
-        /// <summary>
-        /// Use for all database calls.
-        /// </summary>
+        //use for all database calls
         internal static clsDataAccess db = new clsDataAccess();
 
-        /// <summary>
-        /// Use a single instance of the main window and load invoices
-        /// </summary>
+        //
         internal static wndMain wndMain = (wndMain)Current.MainWindow;
 
         /// <summary>
-        /// Initialize the App.
+        /// 
         /// </summary>
         public App()
         {
@@ -36,39 +31,50 @@ namespace InvoiceSystem
         }
 
         /// <summary>
-        /// Show the main window with the last loaded invoice, or blank if no invoice has been loaded.
+        /// 
         /// </summary>
-        public static void ShowMainWindow()
+        /// <param name="prevWindow"></param>
+        public static void ShowMainWindow(Window prevWindow)
         {
-            wndMain.Show();
+            wndMain.WindowState = prevWindow.WindowState;
+            MatchWindowSize(wndMain, prevWindow);
         }
 
         /// <summary>
-        /// Sends an invoice number to the main window so it can load that invoice's information.
+        /// 
         /// </summary>
-        /// <param name="invoiceNum">The invoice number.</param>
-        public static void ShowMainWindow(int invoiceNum)
+        /// <param name="prevWindow"></param>
+        public static void ShowSearchWindow(Window prevWindow)
         {
-            wndMain.LoadInvoice(invoiceNum);
-            wndMain.Show();
+            wndSearch wndSearch = new wndSearch();
+            MatchWindowSize(wndSearch, prevWindow);
         }
 
         /// <summary>
-        /// Hide the main window and show the search window.
+        /// 
         /// </summary>
-        public static void ShowSearchWindow()
+        /// <param name="prevWindow"></param>
+        public static void ShowItemsWindow(Window prevWindow)
         {
-            wndMain.Hide();
-            new wndSearch().Show();
+            wndItems wndItems = new wndItems();
+            MatchWindowSize(wndItems, prevWindow);
         }
 
         /// <summary>
-        /// Hide the main window and show the items window.
+        /// Matches previous window state, size, and position
         /// </summary>
-        public static void ShowItemsWindow()
+        /// <param name="wndNext">The next window to display</param>
+        /// <param name="wndPrev">The previous window to match</param>
+        public static void MatchWindowSize(Window wndNext, Window wndPrev)
         {
-            wndMain.Hide();
-            new wndItems().Show();
+            wndNext.WindowState = wndPrev.WindowState;
+            wndNext.Top = wndPrev.Top;
+            wndNext.Left = wndPrev.Left;
+            wndNext.Height = wndPrev.ActualHeight;
+            wndNext.Width = wndPrev.ActualWidth;
+            wndNext.Show();
+            wndPrev.Hide();
+
         }
     }
 }
