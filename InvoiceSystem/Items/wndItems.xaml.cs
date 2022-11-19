@@ -282,7 +282,7 @@ namespace InvoiceSystem.Items
         /// </summary>
         private void ShowMainWindow(object sender, EventArgs e)
         {
-            App.ShowMainWindow();
+            App.ShowMainWindow(this);
         }
     }
 }
