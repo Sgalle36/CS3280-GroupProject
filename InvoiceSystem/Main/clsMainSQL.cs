@@ -51,12 +51,27 @@ namespace InvoiceSystem.Main
         }
 
         //- SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc WHERE LineItems.ItemCode = ItemDesc.ItemCode AND LineItems.InvoiceNum = 5000
-        public static string GetAllItems(int InvoiceNum)
+        public static string GetInvoiceItems(int InvoiceNum)
         {
             try
             {
                 string sSQL  = $"SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc ";
                 sSQL        += $"WHERE LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = {InvoiceNum}";
+                return sSQL;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        //- SELECT ItemCode, ItemDesc, Cost from ItemDesc
+        public static string GetAllItems()
+        {
+            try
+            {
+                string sSQL = $"SELECT ItemCode, ItemDesc, Cost from ItemDesc";
                 return sSQL;
             }
             catch (Exception ex)
@@ -103,25 +118,6 @@ namespace InvoiceSystem.Main
             try
             {
                 string sSQL = $"DELETE FROM LineItems WHERE InvoiceNum = {InvoiceNum}";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /*
-         * The below SQL statement might make more sense in a different file
-         */
-
-        //- SELECT ItemCode, ItemDesc, Cost from ItemDesc
-        public static string GetItemDescriptions()
-        {
-            try
-            {
-                string sSQL = $"SELECT ItemCode, ItemDesc, Cost from ItemDesc";
                 return sSQL;
             }
             catch (Exception ex)

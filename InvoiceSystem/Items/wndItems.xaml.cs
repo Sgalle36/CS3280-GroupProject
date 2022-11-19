@@ -23,5 +23,10 @@ namespace InvoiceSystem.Items
         {
             InitializeComponent();
         }
+
+        private void ShowMainWindow(object sender, EventArgs e)
+        {
+            App.ShowMainWindow();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,34 @@ namespace InvoiceSystem.Main
     /// </summary>
     public partial class wndMain : Window
     {
+        clsMainLogic clsMainLogic;
+
         public wndMain()
         {
+            clsMainLogic = new clsMainLogic();
+            InitializeWindow();
+        }
+
+        public wndMain(int invoiceNum)
+        {
+            clsMainLogic = new clsMainLogic(invoiceNum);
+            InitializeWindow();
+        }
+
+        private void InitializeWindow()
+        {
+            DataContext = clsMainLogic;
             InitializeComponent();
+        }
+
+        private void ShowSearchWindow(object sender, RoutedEventArgs e)
+        {
+            App.ShowSearchWindow();
+        }
+
+        private void ShowItemsWindow(object sender, RoutedEventArgs e)
+        {
+            App.ShowItemsWindow();
         }
     }
 }

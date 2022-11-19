@@ -1,4 +1,6 @@
-﻿using InvoiceSystem.Main;
+﻿using InvoiceSystem.Items;
+using InvoiceSystem.Main;
+using InvoiceSystem.Search;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,12 +19,28 @@ namespace InvoiceSystem
         //use for all database calls
         internal static clsDataAccess db = new clsDataAccess();
 
+        internal static wndMain wndMain = (wndMain)Current.MainWindow;
+
         public App()
         {
             InitializeComponent();
+        }
 
-            //invoice numbers start at 5000
-            clsInvoice invoice = clsMainLogic.GetInvoice(5000);
+        public static void ShowMainWindow()
+        {
+            wndMain.Show();
+        }
+
+        public static void ShowSearchWindow()
+        {
+            wndMain.Hide();
+            new wndSearch().Show();
+        }
+
+        public static void ShowItemsWindow()
+        {
+            wndMain.Hide();
+            new wndItems().Show();
         }
     }
 }
