@@ -44,8 +44,8 @@ namespace InvoiceSystem.Search
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -59,7 +59,6 @@ namespace InvoiceSystem.Search
             try
             {
                 lstInvoices = new List<clsInvoice>(); // List to hold invoices
-                clsDataAccess db = new clsDataAccess(); // instance of class to access db
 
                 string getInvoicesSQL;    //SQL statement to get invoices
                 string getItemsSQL;     //SQL statement to get items
@@ -75,7 +74,7 @@ namespace InvoiceSystem.Search
 
 
                 //Extract the invoices and put them into the DataSet
-                dsInvoices = db.ExecuteSQLStatement(getInvoicesSQL, ref getInvoiceRet);
+                dsInvoices = App.db.ExecuteSQLStatement(getInvoicesSQL, ref getInvoiceRet);
 
                 //Loop through the data and create invoices classes
                 for (int i = 0; i < getInvoiceRet; i++)
@@ -89,7 +88,7 @@ namespace InvoiceSystem.Search
                     int getItemRet = 0; //number of returned items
                     lstItems = new List<clsItem>(); //List to hold items
 
-                    dsItems = db.ExecuteSQLStatement(getItemsSQL, ref getItemRet);
+                    dsItems = App.db.ExecuteSQLStatement(getItemsSQL, ref getItemRet);
 
                         //loop through each item for the invoice and add each to the item list
                         for (int x = 0; x < getItemRet; x++)
