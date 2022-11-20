@@ -16,24 +16,29 @@ namespace InvoiceSystem.Search
 {
     /// <summary>
     /// Interaction logic for wndSearch.xaml
-    /// Author: Stephanie Gallegos
-    /// Date: 11/19/22
+    /// <author>Stephanie Gallegos</author>
     /// </summary>
     public partial class wndSearch : Window
     {
-        private List<clsInvoice> lstInvoices;
+        private List<clsInvoice> lstInvoices; // list of invoices
+        private clsInvoice selectedInvoice; //instance of selected invoice
+        private int filterByInvoiceNum;
+        private DateTime filterByInvoiceDate;
+        private decimal filterByInvoiceCost;
+
+
         /// <summary>
-        /// 
+        /// Initialize window and bind invoice datagrid
         /// </summary>
         public wndSearch()
         {
             InitializeComponent();
-            lstInvoices = clsSearchLogic.GetInvoices();
-            dtgSearchInvoice.ItemsSource = lstInvoices;
+            lstInvoices = clsSearchLogic.GetInvoices(); //create list of unfiltered invoices
+            dtgSearchInvoice.ItemsSource = lstInvoices; //bind datagrid to invoice list
         }
 
         /// <summary>
-        /// 
+        /// Show main window on window closure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -43,7 +48,7 @@ namespace InvoiceSystem.Search
         }
 
         /// <summary>
-        /// 
+        /// Show main window on button click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -53,7 +58,7 @@ namespace InvoiceSystem.Search
         }
 
         /// <summary>
-        /// 
+        /// Clear combo boxes when clear button is clicked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -64,12 +69,12 @@ namespace InvoiceSystem.Search
             cboInvoiceDate.SelectedIndex = -1;
             cboInvoiceCost.SelectedIndex = -1;
 
-            //clear filters from invoices in the datagrid (show all)
+            //clear filters from invoices in the datagrid (show all invoices)
 
         }
 
         /// <summary>
-        /// 
+        /// Filter invoices by invoice number
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -80,7 +85,7 @@ namespace InvoiceSystem.Search
         }
 
         /// <summary>
-        /// 
+        /// Filter invoices by invoice date
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -91,7 +96,7 @@ namespace InvoiceSystem.Search
         }
 
         /// <summary>
-        /// 
+        /// Filter invoices by invoice cost
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -102,14 +107,14 @@ namespace InvoiceSystem.Search
         }
 
         /// <summary>
-        /// 
+        /// Gets the selected invoice instance and send to main window to be displayed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Select Invoice Button</param>
+        /// <param name="e">Button click</param>
         private void btnSelectInvoice_Click(object sender, RoutedEventArgs e)
         {
-            //get the instance of the selected invoice
-                //show main window with the selected invoice
+            //get and set the instance of the selected invoice
+                //show main window with the selected invoice (pass selectedInvoice)
         }
     }
 }
