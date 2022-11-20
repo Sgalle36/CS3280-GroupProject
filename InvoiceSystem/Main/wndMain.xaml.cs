@@ -8,6 +8,8 @@ namespace InvoiceSystem.Main
     /// </summary>
     public partial class wndMain : Window
     {
+        //this class utilizes ObservableCollection with INotifyPropertyChanged in the underlying model classes
+        //to automatically refresh bindings with changed data.
         clsMainLogic clsMainLogic;
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace InvoiceSystem.Main
         /// <param name="invoiceNum">The invoice number</param>
         public void LoadInvoice(int invoiceNum)
         {
+            //when the search window selects an invoice, call this method with the given invoice number.
             clsMainLogic = new clsMainLogic(invoiceNum);
         }
 
@@ -36,7 +39,7 @@ namespace InvoiceSystem.Main
         /// </summary>
         private void ShowSearchWindow(object sender, RoutedEventArgs e)
         {
-            App.ShowSearchWindow(this);
+            App.ShowSearchWindow();
         }
 
         /// <summary>
@@ -44,7 +47,7 @@ namespace InvoiceSystem.Main
         /// </summary>
         private void ShowItemsWindow(object sender, RoutedEventArgs e)
         {   
-            App.ShowItemsWindow(this);
+            App.ShowItemsWindow();
         }
 
         /// <summary>

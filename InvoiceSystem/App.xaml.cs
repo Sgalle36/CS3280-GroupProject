@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,20 +45,20 @@ namespace InvoiceSystem
         /// 
         /// </summary>
         /// <param name="prevWindow"></param>
-        public static void ShowSearchWindow(Window prevWindow)
+        public static void ShowSearchWindow()
         {
             wndSearch wndSearch = new wndSearch();
-            MatchWindowSize(wndSearch, prevWindow);
+            MatchWindowSize(wndSearch, wndMain);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="prevWindow"></param>
-        public static void ShowItemsWindow(Window prevWindow)
+        public static void ShowItemsWindow()
         {
             wndItems wndItems = new wndItems();
-            MatchWindowSize(wndItems, prevWindow);
+            MatchWindowSize(wndItems, wndMain);
         }
 
         /// <summary>
@@ -67,14 +68,20 @@ namespace InvoiceSystem
         /// <param name="wndPrev">The previous window to match</param>
         public static void MatchWindowSize(Window wndNext, Window wndPrev)
         {
-            wndNext.WindowState = wndPrev.WindowState;
-            wndNext.Top = wndPrev.Top;
-            wndNext.Left = wndPrev.Left;
-            wndNext.Height = wndPrev.ActualHeight;
-            wndNext.Width = wndPrev.ActualWidth;
-            wndNext.Show();
-            wndPrev.Hide();
-
+            try
+            {
+                wndNext.WindowState = wndPrev.WindowState;
+                wndNext.Top = wndPrev.Top;
+                wndNext.Left = wndPrev.Left;
+                wndNext.Height = wndPrev.ActualHeight;
+                wndNext.Width = wndPrev.ActualWidth;
+                wndNext.Show();
+                wndPrev.Hide();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }
