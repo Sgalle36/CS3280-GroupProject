@@ -284,5 +284,14 @@ namespace InvoiceSystem.Items
         {
             App.ShowMainWindow(this);
         }
+
+        /// <summary>
+        /// Returns to the main window.
+        /// </summary>
+        private void returnBtn_Click(object sender, RoutedEventArgs e)
+        {
+            App.ShowMainWindow(this);
+
+        }
     }
 }
