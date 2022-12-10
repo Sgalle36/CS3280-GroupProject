@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InvoiceSystem.Items"
         mc:Ignorable="d"
-        Title="wndItems" Height="450" Width="800" Closed="ShowMainWindow">
+        Title="wndItems" Height="450" Width="800">
     <Grid>
         <Grid Margin="0,0,0,8">
             <DataGrid x:Name="ItemTable" Margin="340,10,10,157" SelectionChanged="ItemTable_SelectionChanged" SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
@@ -27,7 +27,7 @@
             <Button x:Name="addBtn" Content="Add Item" HorizontalAlignment="Left" Margin="22,155,0,0" VerticalAlignment="Top" Height="21" Width="106" RenderTransformOrigin="-0.705,1.192" Click="Button_Click"/>
             <Button x:Name="saveBtn" Content="Save Item" HorizontalAlignment="Left" Margin="207,217,0,0" VerticalAlignment="Top" Height="21" Width="106" IsEnabled="False" Click="saveBtn_Click"/>
             <Label x:Name="inputLbl" Content="Input Parameters" HorizontalAlignment="Left" Height="26" Margin="55,10,0,0" VerticalAlignment="Top" Width="221" Visibility="Hidden"/>
-            <Button x:Name="returnBtn" Content="Go Back" HorizontalAlignment="Left" Margin="22,300,0,0" VerticalAlignment="Top" Height="21" Width="106" Click="returnBtn_Click"/>
+            <Button x:Name="returnBtn" Content="Return" HorizontalAlignment="Left" Margin="132,268,0,0" VerticalAlignment="Top" Height="25" Width="68" Click="returnBtn_Click"/>
 
         </Grid>
     </Grid>

@@ -17,26 +17,6 @@ using System.Data;
 //This is the front end code for the search window
 //Author: Austin Griffith
 
-//try catch top level template
-//try
-//{
-//   
-//}
-//catch (Exception ex)
-//{
-//    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-//}
-
-//try catch secondary template
-//try
-//{
-//
-//}
-//catch (Exception ex)
-//{
-//    throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-//}
-
 namespace InvoiceSystem.Items
 {
     /// <summary>
@@ -59,7 +39,7 @@ namespace InvoiceSystem.Items
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         /// <summary>
@@ -70,14 +50,8 @@ namespace InvoiceSystem.Items
         /// <param name="sMessage"></param>
         private void HandleError(string sClass, string sMethod, string sMessage)
         {
-            try
-            {
-                System.IO.File.AppendAllText("C:\\Error.txt", Environment.NewLine + sClass + Environment.NewLine + sMethod + Environment.NewLine + sMessage);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("HandleError Exception thrown: " + ex.Message);
-            }
+
+                //MessageBox.Show("HandleError Exception thrown: " + sMessage);
         }
         /// <summary>
         /// AddTrue, Bool to tell saveBtn to either add a new entry or edit an entry.  True for Add, False for edit
@@ -91,7 +65,7 @@ namespace InvoiceSystem.Items
         /// <summary>
         /// Fills the Item table with fresh data
         /// </summary>
-        private void filLData()
+        private void fillData()
         {
             try
             {
@@ -102,18 +76,23 @@ namespace InvoiceSystem.Items
                 string sSQL = clsItemsSQL.GetAllItems();
                 clsDataAccess db = new clsDataAccess();
                 DataSet ds = db.ExecuteSQLStatement(sSQL, ref iRet);
-
+                
                 List<clsItem> AllItems = new List<clsItem>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    //populate rows
-
+                    
+                    string ItemCode = dr[0].ToString();
+                    string ItemDesc = dr[1].ToString();
+                    decimal Cost = Convert.ToDecimal(dr[2]);
+                    clsItem item = new clsItem(ItemCode,ItemDesc,Cost);
+                    AllItems.Add(item);
                 }
+                ItemTable.ItemsSource = AllItems;
 
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                //throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -137,11 +116,11 @@ namespace InvoiceSystem.Items
                 DescBox.Text = "";
 
 
-                filLData();
+                fillData();
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -170,7 +149,7 @@ namespace InvoiceSystem.Items
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         /// <summary>
@@ -188,11 +167,10 @@ namespace InvoiceSystem.Items
                 bAddTrue = false;
                 CodeBox.Focus();
                 saveBtn.IsEnabled = true;
-                //edit item here
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         /// <summary>
@@ -210,7 +188,7 @@ namespace InvoiceSystem.Items
                         inputLbl.Content = "Please fill all fields before saving";
                         return;
                     }
-                    //put add item here
+                    clsItemsLogic.AddItem(CodeBox.Text, CostBox.Text, DescBox.Text);
                     saveBtn.IsEnabled = false;
 
                 }
@@ -222,7 +200,7 @@ namespace InvoiceSystem.Items
                         return;
                     }
                     clsItemsLogic.EditItem(CodeBox.Text, CostBox.Text, DescBox.Text);
-
+                    
                 }
                 resetWindow();
                 bAddTrue = false;
@@ -230,7 +208,7 @@ namespace InvoiceSystem.Items
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         /// <summary>
@@ -240,7 +218,10 @@ namespace InvoiceSystem.Items
         {
             try
             {
-                //delete item here
+                if (clsItemsLogic.DeleteItem(CodeBox.Text))
+                {
+                    bItemChanged=true;
+                }
                 resetWindow();
             }
             catch (Exception ex)
@@ -272,26 +253,17 @@ namespace InvoiceSystem.Items
             }
             catch (Exception ex)
             {
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-                return bItemChanged;
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
-        /// <summary>
-        /// Returns to the main window after this window closes.
-        /// </summary>
         private void ShowMainWindow(object sender, EventArgs e)
         {
             App.ShowMainWindow(this);
         }
-
-        /// <summary>
-        /// Returns to the main window.
-        /// </summary>
         private void returnBtn_Click(object sender, RoutedEventArgs e)
         {
             App.ShowMainWindow(this);
-
         }
     }
 }
