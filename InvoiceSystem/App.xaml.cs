@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -28,7 +29,7 @@ namespace InvoiceSystem
         internal static wndMain wndMain = (wndMain)Current.MainWindow;
 
         /// <summary>
-        /// 
+        /// Run the app.
         /// </summary>
         public App()
         {
@@ -36,34 +37,53 @@ namespace InvoiceSystem
         }
 
         /// <summary>
-        /// 
+        /// Show the main window.
         /// </summary>
-        /// <param name="prevWindow"></param>
+        /// <param name="prevWindow">The previous window to match.</param>
         public static void ShowMainWindow(Window prevWindow)
         {
-            wndMain.RefreshItems();
-            wndMain.WindowState = prevWindow.WindowState;
-            MatchWindowSize(wndMain, prevWindow);
+            try
+            {
+                wndMain.RefreshItems();
+                wndMain.WindowState = prevWindow.WindowState;
+                MatchWindowSize(wndMain, prevWindow);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
         /// <summary>
-        /// 
+        /// Show the search window.
         /// </summary>
-        /// <param name="prevWindow"></param>
         public static void ShowSearchWindow()
         {
-            wndSearch wndSearch = new wndSearch();
-            MatchWindowSize(wndSearch, wndMain);
+            try
+            {
+                wndSearch wndSearch = new wndSearch();
+                MatchWindowSize(wndSearch, wndMain);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
         /// <summary>
-        /// 
+        /// Show the items window.
         /// </summary>
-        /// <param name="prevWindow"></param>
         public static void ShowItemsWindow()
         {
-            wndItems wndItems = new wndItems();
-            MatchWindowSize(wndItems, wndMain);
+            try
+            {
+                wndItems wndItems = new wndItems();
+                MatchWindowSize(wndItems, wndMain);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -83,9 +103,9 @@ namespace InvoiceSystem
                 wndNext.Show();
                 wndPrev.Hide();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
             }
         }
     }

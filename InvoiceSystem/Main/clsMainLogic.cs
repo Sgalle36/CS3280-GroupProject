@@ -146,13 +146,20 @@ namespace InvoiceSystem.Main
         /// </summary>
         public void RefreshItemData()
         {
-            List<clsItem> items = GetAllItems();
-            items.RemoveAll(i => Items.Contains(i));
-            Invoice.Items = new ObservableCollection<clsItem>(items);
+            try
+            {
+                List<clsItem> items = GetAllItems();
+                items.RemoveAll(i => Items.Contains(i));
+                Invoice.Items = new ObservableCollection<clsItem>(items);
 
-            items = GetAllItems();
-            items.RemoveAll(i => Invoice.Items.Contains(i));
-            Items = new ObservableCollection<clsItem>(items);
+                items = GetAllItems();
+                items.RemoveAll(i => Invoice.Items.Contains(i));
+                Items = new ObservableCollection<clsItem>(items);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
         /// <summary>
