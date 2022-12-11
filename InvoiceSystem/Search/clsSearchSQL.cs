@@ -21,7 +21,7 @@ namespace InvoiceSystem.Search
         /// <param name="invoiceNum">Invoice number to search</param>
         /// <returns>string sql</returns>
         /// <exception cref="Exception"></exception>
-        public static string GetDistictInvoiceNumber(int invoiceNum)
+        public static string GetDistictInvoicebyNum(int invoiceNum)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace InvoiceSystem.Search
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
                     MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
             }
-        }
+        }        
 
         /// <summary>
         /// Return sql string to get all invoices with provided invoice date
@@ -41,11 +41,11 @@ namespace InvoiceSystem.Search
         /// <param name="invoiceDate">Invoice date to search</param>
         /// <returns>string sql</returns>
         /// <exception cref="Exception"></exception>
-        public static string GetDistinctInvoiceDate(DateTime invoiceDate)
+        public static string GetDistictInvoicebyDate(DateTime invoiceDate)
         {
             try
             {
-                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceDate = {invoiceDate}";
+                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceDate = #{invoiceDate}#";
                 return sSQL;
 
             }
@@ -62,11 +62,11 @@ namespace InvoiceSystem.Search
         /// <param name="invoiceCost">Invoice cost to search</param>
         /// <returns>string sql</returns>
         /// <exception cref="Exception"></exception>
-        public static string GetDistinctInvoiceCost(decimal invoiceCost)
+        public static string GetDistictInvoicebyCost(int invoiceCost)
         {
             try
             {
-                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceCost = {invoiceCost}";
+                string sSQL = $"SELECT * FROM Invoices WHERE TotalCost = {invoiceCost}";
                 return sSQL;
 
             }
@@ -76,69 +76,6 @@ namespace InvoiceSystem.Search
                     MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
             }
         }
-
-        /// <summary>
-        /// Return all invoices with provided date and number
-        /// </summary>
-        /// <param name="invoiceNum">Invoice number to search</param>
-        /// <param name="invoiceDate">invoice date to search</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception
-        public static string GetInvoicebyNumAndDate(int invoiceNum, DateTime invoiceDate)
-        {
-            try
-            {
-                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceNum = {invoiceNum} AND InvoiceDate = {invoiceDate}";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Return all invoices with provided number and cost
-        /// </summary>
-        /// <param name="invoiceNum">Invoice number to search</param>
-        /// <returns>string sql</returns>
-        /// <exception cref="Exception"></exception>
-        public static string GetInvoicebyNumAndCost(int invoiceNum, decimal invoiceCost)
-        {
-            try
-            {
-                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceNum = {invoiceNum} AND InvoiceCost = {invoiceCost}";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Return all invoices with provided cost and date
-        /// </summary>
-        /// <param name="invoiceNum">Invoice number to search</param>
-        /// <param name="invoiceCost">Invoice date to search</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static string GetInvoicebyCostAndDate(decimal invoiceCost, DateTime invoiceDate)
-        {
-            try
-            {
-                string sSQL = $"SELECT * FROM Invoices WHERE InvoiceCost = {invoiceCost} AND InvoiceDate = {invoiceDate}";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// Return all invoices 

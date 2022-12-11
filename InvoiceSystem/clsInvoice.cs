@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,32 +12,12 @@ namespace InvoiceSystem
     /// Model for Invoices
     /// <author>Natalie Mueller</author>
     /// </summary>
-    internal class clsInvoice : INotifyPropertyChanged, INotifyCollectionChanged
+    internal class clsInvoice : INotifyPropertyChanged, IEquatable<clsInvoice>
     {
-        /// <summary>
-        /// The invoice number.
-        /// </summary>
         private int? invoiceNum;
-
-        /// <summary>
-        /// The invoice date.
-        /// </summary>
         private DateTime invoiceDate;
-
-        /// <summary>
-        /// The invoice total cost.
-        /// </summary>
-        private decimal totalCost;
-
-        /// <summary>
-        /// The invoice items.
-        /// </summary>
-        private ObservableCollection<clsItem> items;
-
-        /// <summary>
-        /// Event notifies when a property has changed.
-        /// </summary>
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private int totalCost;
+        private List<clsItem> items;
 
         /// <summary>
         /// Creates a new clsInvoice object.
@@ -48,7 +26,7 @@ namespace InvoiceSystem
         /// <param name="invoiceDate">The date of the invoice.</param>
         /// <param name="totalCost">The total cost of the invoice.</param>
         /// <param name="items">Items belonging to the invoice.</param>
-        public clsInvoice(int? invoiceNum, DateTime invoiceDate, decimal totalCost, List<clsItem> items)
+        public clsInvoice(int? invoiceNum, DateTime invoiceDate, int totalCost, List<clsItem> items)
         {
             if (invoiceNum != null)
             {
@@ -56,7 +34,7 @@ namespace InvoiceSystem
             }
             InvoiceDate = invoiceDate;
             TotalCost = totalCost;
-            Items = new ObservableCollection<clsItem>(items);
+            Items = items;
         }
 
         /// <summary>
@@ -94,16 +72,23 @@ namespace InvoiceSystem
         /// <summary>
         /// The total cost of the invoice.
         /// </summary>
-        public decimal TotalCost 
+        public int TotalCost 
         {
-            get { return items.Sum(i => i.Cost); }
-            set { totalCost = value; }
+            get { return totalCost; } 
+            set
+            { 
+                if (value != totalCost)
+                {
+                    totalCost = value;
+                    NotifyPropertyChanged();
+                }
+            } 
         }
 
         /// <summary>
         /// Items belonging to the invoice.
         /// </summary>
-        public ObservableCollection<clsItem> Items 
+        public List<clsItem> Items 
         {
             get { return items; } 
             set
@@ -117,28 +102,24 @@ namespace InvoiceSystem
         }
 
         /// <summary>
-        /// Notifies when a property has changed.
+        /// Event notifies when a property has changed.
         /// </summary>
-        /// <param name="propertyName"></param>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary>
-        /// Notifies when a collection has changed.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler? CollectionChanged
+        public bool Equals(clsInvoice other)
         {
-            add
-            {
-                ((INotifyCollectionChanged)items).CollectionChanged += value;
-            }
+            if (other is null)
+                return false;
 
-            remove
-            {
-                ((INotifyCollectionChanged)items).CollectionChanged -= value;
-            }
+            return this.invoiceNum == other.invoiceNum;
         }
+
+        public override bool Equals(object obj) => Equals(obj as clsInvoice);
+        public override int GetHashCode() => (invoiceNum).GetHashCode();
     }
 }
