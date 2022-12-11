@@ -63,6 +63,8 @@ namespace InvoiceSystem.Main
                 LabelTotalCost.Content = $"${clsMainLogic.Invoice.TotalCost}";
                 DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
                 ComboBoxItems.ItemsSource = clsMainLogic.Items;
+
+                ResetControlsEnabled();
             }
             catch (Exception ex)
             {
@@ -318,6 +320,31 @@ namespace InvoiceSystem.Main
             catch (Exception ex)
             {
                 HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Resets what elements can be interacted with.
+        /// </summary>
+        private void ResetControlsEnabled()
+        {
+            try
+            {
+                ButtonNewInvoice.IsEnabled = true;
+                ButtonEditInvoice.IsEnabled = false;
+                ButtonSaveInvoice.IsEnabled = false;
+                TextBoxDate.IsEnabled = false;
+                DataGridInvoiceItems.IsEnabled = false;
+                ButtonDeleteItem.IsEnabled = false;
+                ButtonAddItem.IsEnabled = false;
+                ItemsGroupBox.IsEnabled = false;
+                AddItemErrorLabel.Visibility = Visibility.Hidden;
+                DeleteItemErrorLabel.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name,
+                    MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
