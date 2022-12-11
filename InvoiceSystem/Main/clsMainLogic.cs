@@ -109,7 +109,7 @@ namespace InvoiceSystem.Main
                 DataRow[] dr = ds.Tables[0].AsEnumerable().ToArray();
                 foreach (DataRow row in dr)
                 {
-                    items.Add(new clsItem((string)row.ItemArray[0], (string)row.ItemArray[1], (int)row.ItemArray[2], (Decimal)row.ItemArray[3]));
+                    items.Add(new clsItem((string)row.ItemArray[0], (string)row.ItemArray[1], (Decimal)row.ItemArray[3], (int)row.ItemArray[2]));
                 }
 
                 return items;
@@ -231,7 +231,7 @@ namespace InvoiceSystem.Main
         {
             try
             {
-                clsItem invoiceItem = new clsItem(item.ItemCode, item.ItemDesc, lineItem++, item.Cost);
+                clsItem invoiceItem = new clsItem(item.ItemCode, item.ItemDesc, item.Cost, lineItem++);
                 Invoice.Items.Add(invoiceItem);
             }
             catch (Exception ex)

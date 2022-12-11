@@ -26,14 +26,14 @@ namespace InvoiceSystem
         private string itemDesc;
 
         /// <summary>
-        /// The item's invoice line number.
-        /// </summary>
-        private int itemLine;
-
-        /// <summary>
         /// The item cost.
         /// </summary>
         private decimal cost;
+
+        /// <summary>
+        /// The item's invoice line number.
+        /// </summary>
+        private int itemLine;
 
         /// <summary>
         /// Creates a new clsItem object.
@@ -61,14 +61,14 @@ namespace InvoiceSystem
         /// <param name="itemCode">The item code.</param>
         /// <param name="itemDesc">The description of the item.</param>
         /// <param name="cost">The cost of the item.</param>
-        public clsItem(string itemCode, string itemDesc, int itemLine, decimal cost)
+        public clsItem(string itemCode, string itemDesc, decimal cost, int itemLine)
         {
             try
             {
                 ItemCode = itemCode;
                 ItemDesc = itemDesc;
-                ItemLine = itemLine;
                 Cost = cost;
+                ItemLine = itemLine;
             }
             catch (Exception ex)
             {
@@ -109,6 +109,22 @@ namespace InvoiceSystem
         }
 
         /// <summary>
+        /// The cost of the item.
+        /// </summary>
+        public decimal Cost
+        {
+            get { return cost; }
+            set
+            {
+                if (value != cost)
+                {
+                    cost = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// The invoice line number of the item.
         /// </summary>
         public int ItemLine
@@ -119,22 +135,6 @@ namespace InvoiceSystem
                 if (value != itemLine)
                 {
                     itemLine = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// The cost of the item.
-        /// </summary>
-        public decimal Cost
-{
-            get { return cost; }
-            set
-            {
-                if (value != cost)
-                {
-                    cost = value;
                     NotifyPropertyChanged();
                 }
             }
