@@ -16,9 +16,24 @@ namespace InvoiceSystem
     /// </summary>
     internal class clsInvoice : INotifyPropertyChanged, INotifyCollectionChanged
     {
+        /// <summary>
+        /// The invoice number.
+        /// </summary>
         private int? invoiceNum;
+
+        /// <summary>
+        /// The invoice date.
+        /// </summary>
         private DateTime invoiceDate;
+
+        /// <summary>
+        /// The invoice total cost.
+        /// </summary>
         private decimal totalCost;
+
+        /// <summary>
+        /// The invoice items.
+        /// </summary>
         private ObservableCollection<clsItem> items;
 
         /// <summary>

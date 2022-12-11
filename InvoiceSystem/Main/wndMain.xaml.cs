@@ -31,7 +31,12 @@ namespace InvoiceSystem.Main
             try
             {
                 InitializeComponent();
-                RefreshItems();
+                clsMainLogic = new clsMainLogic();
+                LabelInvoiceNumber.Content = "";
+                TextBoxDate.Text = "";
+                LabelTotalCost.Content = "$0";
+                DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
+                ComboBoxItems.ItemsSource = clsMainLogic.Items;
             }
             catch (Exception ex)
             {
@@ -100,13 +105,9 @@ namespace InvoiceSystem.Main
         /// </summary>
         public void RefreshItems()
         {
-            clsMainLogic = new clsMainLogic();
+            clsMainLogic.RefreshItemData();
             DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
             ComboBoxItems.ItemsSource = clsMainLogic.Items;
-            LabelInvoiceNumber.Content = "";
-            TextBoxDate.Text = "";
-            LabelTotalCost.Content = "$0";
-            ResetControlsEnabled();
         }
 
         /// <summary>

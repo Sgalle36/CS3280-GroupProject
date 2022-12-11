@@ -142,6 +142,20 @@ namespace InvoiceSystem.Main
         }
 
         /// <summary>
+        /// Refreshes items with updated descriptions and costs.
+        /// </summary>
+        public void RefreshItemData()
+        {
+            List<clsItem> items = GetAllItems();
+            items.RemoveAll(i => Items.Contains(i));
+            Invoice.Items = new ObservableCollection<clsItem>(items);
+
+            items = GetAllItems();
+            items.RemoveAll(i => Invoice.Items.Contains(i));
+            Items = new ObservableCollection<clsItem>(items);
+        }
+
+        /// <summary>
         /// Creates a new invoice with all of the listed items.
         /// </summary>
         public void CreateInvoice()
