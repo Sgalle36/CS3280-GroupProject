@@ -11,7 +11,7 @@
     <Viewbox Stretch="Fill">
         <Canvas Width="730" Height="396">
             <Grid Height="150" Width="730" Background="Gray" Canvas.Top="0"/>
-            <DataGrid x:Name="dtgSearchInvoice" Height="371" Width="530" Canvas.Left="181" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Black" AutoGenerateColumns="False">
+            <DataGrid Style="{DynamicResource styleDataGrid}" x:Name="dtgSearchInvoice" Height="371" Width="530" Canvas.Left="181" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Black" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                                 x:Name="num"
@@ -32,7 +32,10 @@
                 <StackPanel.Effect>
                     <DropShadowEffect BlurRadius="5" Opacity="0.5" Direction="360" ShadowDepth="2" RenderingBias="Performance" Color="#FF737373"/>
                 </StackPanel.Effect>
-                <Label Content="Search Invoices" FontWeight="Bold" BorderThickness="0,0,0,2" HorizontalAlignment="Center" Margin="0,15,0,15">
+                <Label Template="{DynamicResource styleWindowTitle}" x:Name="lblWndTitle" Content="Search Invoices" FontWeight="Bold" BorderThickness="0,0,0,2" HorizontalAlignment="Center" Margin="0,15,0,15">
+                    <Label.Style>
+                        <Style/>
+                    </Label.Style>
                     <Label.BorderBrush>
                         <SolidColorBrush Color="#FF688CAF" Opacity="1"/>
                     </Label.BorderBrush>
@@ -43,7 +46,7 @@
                 <ComboBox x:Name="cboInvoiceDate" Width="140" Margin="0,0,0,8" SelectionChanged="cboInvoiceDate_SelectionChanged"/>
                 <Label x:Name="lblInvoiceCost" HorizontalContentAlignment="Left" Content="Invoice Cost:" Canvas.Left="335" Canvas.Top="10" Width="140" FontFamily="Segoe UI Semibold" FontSize="10"/>
                 <ComboBox x:Name="cboInvoiceCost" Width="140" SelectionChanged="cboInvoiceCost_SelectionChanged"/>
-                <Button x:Name="btnClear" Content="Clear Filter" Canvas.Left="571" Canvas.Top="266" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF688CAF" Width="120" Margin="0,20,0,20" FontSize="10" Click="btnClear_Click"/>
+                <Button Style="{DynamicResource styleBtnPrimary}" x:Name="btnClear" Content="Clear Filter" Canvas.Left="571" Canvas.Top="266" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF688CAF" Width="120" Margin="0,20,0,20" FontSize="10" Click="btnClear_Click"/>
                 <Button x:Name="btnSelectInvoice" Content="Select Invoice" Height="25" Width="120" Background="#FF688CAF" HorizontalAlignment="Center" FontSize="10" Click="btnSelectInvoice_Click"/>
                 <Button x:Name="btnGoBack" VerticalContentAlignment="Center" Height="25" Width="77" BorderBrush="{x:Null}" Click="ShowMainWindow" Content="← Go Back" HorizontalContentAlignment="Center" Background="#FF688CAF" Padding="5,0,5,0" Margin="0,50,0,0" HorizontalAlignment="Center" FontSize="10"/>
             </StackPanel>

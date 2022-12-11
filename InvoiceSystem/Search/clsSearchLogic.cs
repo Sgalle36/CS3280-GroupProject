@@ -1,17 +1,9 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Media.Media3D;
 
 namespace InvoiceSystem.Search
 {
@@ -25,12 +17,40 @@ namespace InvoiceSystem.Search
         /// List of invoices
         /// </summary>
         public static List<clsInvoice> lstInvoices;
+
+        /// <summary>
+        /// list of current invoice numbers
+        /// </summary>
         public static List<int> lstInvoiceNumbers;
+
+        /// <summary>
+        /// list of current invoice total costs
+        /// </summary>
         public static List<int> lstInvoiceTotalCosts;
+
+        /// <summary>
+        /// list of current invoice dates
+        /// </summary>
         public static List<DateTime> lstInvoiceDates;
+
+        /// <summary>
+        /// list of invoices filtered by invoice number
+        /// </summary>
         public static List<clsInvoice> lstInvoiceFilterbyNum;
+
+        /// <summary>
+        /// list of invoices filtered by invoice date
+        /// </summary>
         public static List<clsInvoice> lstInvoiceFilterbyDate;
+
+        /// <summary>
+        /// list of invoices filtered by invoice total cost
+        /// </summary>
         public static List<clsInvoice> lstInvoiceFilterbyCost;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static List<clsInvoice> lstFiltered;
 
         /// <summary>
@@ -159,41 +179,37 @@ namespace InvoiceSystem.Search
 
         }
 
-        public static List<int> GetInvoiceNumbers(List<clsInvoice> invoices)
+        /// <summary>
+        /// Set the lists that hold the invoice filter options
+        /// </summary>
+        /// <param name="invoices">List of invoices</param>
+        public static void SetInvoiceFilterLists(List<clsInvoice> invoices)
         {
-            lstInvoiceNumbers = new List<int>();
-
-            foreach (clsInvoice invoice in invoices)
+            try
             {
-                lstInvoiceNumbers.Add((int)invoice.InvoiceNum);
-            }
+                lstInvoiceNumbers = new List<int>();
+                lstInvoiceDates = new List<DateTime>();
+                lstInvoiceTotalCosts = new List<int>();
 
-            return lstInvoiceNumbers;
+                foreach (clsInvoice invoice in invoices)
+                {
+                    lstInvoiceNumbers.Add((int)invoice.InvoiceNum);
+                    lstInvoiceDates.Add((DateTime)invoice.InvoiceDate);
+                    lstInvoiceTotalCosts.Add((int)invoice.TotalCost);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public static List<DateTime> GetInvoiceDates(List<clsInvoice> invoices)
-        {
-            lstInvoiceDates = new List<DateTime>();
-    
-            foreach (clsInvoice invoice in invoices)
-            {
-                lstInvoiceDates.Add((DateTime)invoice.InvoiceDate);
-            }
-
-            return lstInvoiceDates;
-        }
-
-        public static List<int> GetInvoiceTotalCosts(List<clsInvoice> invoices)
-        {
-            lstInvoiceTotalCosts = new List<int>();
-
-            foreach (clsInvoice invoice in invoices)
-            {
-                lstInvoiceTotalCosts.Add((int)invoice.TotalCost);
-            }
-            return lstInvoiceTotalCosts;
-        }
-
+        /// <summary>
+        /// Gets distinct invoices based on provided sql statement
+        /// </summary>
+        /// <param name="SQL">Distinct sql statement</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static List<clsInvoice> GetDistinctInvoices(string SQL)
         {
             try
