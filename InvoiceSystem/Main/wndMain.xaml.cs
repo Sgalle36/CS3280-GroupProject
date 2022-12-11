@@ -64,6 +64,7 @@ namespace InvoiceSystem.Main
                 DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
                 ComboBoxItems.ItemsSource = clsMainLogic.Items;
 
+                newInvoice = false;
                 ResetControlsEnabled();
             }
             catch (Exception ex)
@@ -331,7 +332,7 @@ namespace InvoiceSystem.Main
             try
             {
                 ButtonNewInvoice.IsEnabled = true;
-                ButtonEditInvoice.IsEnabled = false;
+                ButtonEditInvoice.IsEnabled = newInvoice ? false : true;
                 ButtonSaveInvoice.IsEnabled = false;
                 TextBoxDate.IsEnabled = false;
                 DataGridInvoiceItems.IsEnabled = false;
