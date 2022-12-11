@@ -52,7 +52,7 @@ namespace InvoiceSystem.Search
                 lstInvoiceFilterbyNum = new List<clsInvoice> ();
                 lstInvoiceFilterbyDate = new List<clsInvoice> ();
                 lstInvoiceFilterbyCost = new List<clsInvoice> ();
-                lstFiltered = new List<clsInvoice> ();
+                lstFiltered = lstInvoices;
                 DateTime defaultDate = new DateTime(01/01/0001);
                 string SQL;
 
@@ -61,6 +61,7 @@ namespace InvoiceSystem.Search
                 {
                     SQL = clsSearchSQL.GetDistictInvoicebyNum(num);
                     lstInvoiceFilterbyNum = GetDistinctInvoices(SQL);
+                    lstFiltered = lstInvoiceFilterbyNum.Intersect(lstFiltered).ToList();
                     Debug.WriteLine(SQL);
                 }
 
@@ -68,6 +69,7 @@ namespace InvoiceSystem.Search
                 {
                     SQL = clsSearchSQL.GetDistictInvoicebyCost(cost);
                     lstInvoiceFilterbyCost = GetDistinctInvoices(SQL);
+                    lstFiltered = lstInvoiceFilterbyCost.Intersect(lstFiltered).ToList();
                     Debug.WriteLine(SQL);
                 }
 
@@ -75,12 +77,9 @@ namespace InvoiceSystem.Search
                 {
                     SQL = clsSearchSQL.GetDistictInvoicebyDate(date);
                     lstInvoiceFilterbyDate = GetDistinctInvoices(SQL);
+                    lstFiltered = lstInvoiceFilterbyDate.Intersect(lstFiltered).ToList();
                     Debug.WriteLine(SQL);
                 }
-
-                //find intersection of all lists
-                lstFiltered = lstInvoiceFilterbyNum.Union(lstInvoiceFilterbyCost).ToList();
-                lstFiltered = lstFiltered.Union(lstInvoiceFilterbyDate).ToList();
 
                 return lstFiltered;
 
