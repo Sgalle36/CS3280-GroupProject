@@ -88,5 +88,22 @@ namespace InvoiceSystem
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return $"{itemCode} - {itemDesc}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != GetType()) return false;
+            return itemCode.Equals(((clsItem)obj).itemCode);
+        }
+
+        public override int GetHashCode()
+        {
+            return itemCode.GetHashCode();
+        }
     }
 }

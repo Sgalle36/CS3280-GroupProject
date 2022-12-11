@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,12 +14,17 @@ namespace InvoiceSystem
     /// Model for Invoices
     /// <author>Natalie Mueller</author>
     /// </summary>
-    internal class clsInvoice : INotifyPropertyChanged
+    internal class clsInvoice : INotifyPropertyChanged, INotifyCollectionChanged
     {
         private int? invoiceNum;
         private DateTime invoiceDate;
-        private int totalCost;
-        private List<clsItem> items;
+        private decimal totalCost;
+        private ObservableCollection<clsItem> items;
+
+        /// <summary>
+        /// Event notifies when a property has changed.
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Creates a new clsInvoice object.
@@ -26,7 +33,7 @@ namespace InvoiceSystem
         /// <param name="invoiceDate">The date of the invoice.</param>
         /// <param name="totalCost">The total cost of the invoice.</param>
         /// <param name="items">Items belonging to the invoice.</param>
-        public clsInvoice(int? invoiceNum, DateTime invoiceDate, int totalCost, List<clsItem> items)
+        public clsInvoice(int? invoiceNum, DateTime invoiceDate, decimal totalCost, List<clsItem> items)
         {
             if (invoiceNum != null)
             {
@@ -34,7 +41,7 @@ namespace InvoiceSystem
             }
             InvoiceDate = invoiceDate;
             TotalCost = totalCost;
-            Items = items;
+            Items = new ObservableCollection<clsItem>(items);
         }
 
         /// <summary>
@@ -72,23 +79,16 @@ namespace InvoiceSystem
         /// <summary>
         /// The total cost of the invoice.
         /// </summary>
-        public int TotalCost 
+        public decimal TotalCost 
         {
-            get { return totalCost; } 
-            set
-            { 
-                if (value != totalCost)
-                {
-                    totalCost = value;
-                    NotifyPropertyChanged();
-                }
-            } 
+            get { return items.Sum(i => i.Cost); }
+            set { totalCost = value; }
         }
 
         /// <summary>
         /// Items belonging to the invoice.
         /// </summary>
-        public List<clsItem> Items 
+        public ObservableCollection<clsItem> Items 
         {
             get { return items; } 
             set
@@ -102,13 +102,28 @@ namespace InvoiceSystem
         }
 
         /// <summary>
-        /// Event notifies when a property has changed.
+        /// Notifies when a property has changed.
         /// </summary>
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        /// <param name="propertyName"></param>
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Notifies when a collection has changed.
+        /// </summary>
+        public event NotifyCollectionChangedEventHandler? CollectionChanged
+        {
+            add
+            {
+                ((INotifyCollectionChanged)items).CollectionChanged += value;
+            }
+
+            remove
+            {
+                ((INotifyCollectionChanged)items).CollectionChanged -= value;
+            }
         }
     }
 }
