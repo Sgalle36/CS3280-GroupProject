@@ -32,9 +32,6 @@ namespace InvoiceSystem.Main
             {
                 InitializeComponent();
                 RefreshItems();
-
-                DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
-                ComboBoxItems.ItemsSource = clsMainLogic.Items;
             }
             catch (Exception ex)
             {
@@ -104,6 +101,12 @@ namespace InvoiceSystem.Main
         public void RefreshItems()
         {
             clsMainLogic = new clsMainLogic();
+            DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
+            ComboBoxItems.ItemsSource = clsMainLogic.Items;
+            LabelInvoiceNumber.Content = "";
+            TextBoxDate.Text = "";
+            LabelTotalCost.Content = "$0";
+            ResetControlsEnabled();
         }
 
         /// <summary>
@@ -259,6 +262,31 @@ namespace InvoiceSystem.Main
                     clsMainLogic.RemoveItem((clsItem)DataGridInvoiceItems.SelectedItem);
                     LabelTotalCost.Content = $"${clsMainLogic.Invoice.TotalCost}";
                 }
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name,
+                    MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Resets what elements can be interacted with.
+        /// </summary>
+        private void ResetControlsEnabled()
+        {
+            try
+            {
+                ButtonNewInvoice.IsEnabled = true;
+                ButtonEditInvoice.IsEnabled = false;
+                ButtonSaveInvoice.IsEnabled = false;
+                TextBoxDate.IsEnabled = false;
+                DataGridInvoiceItems.IsEnabled = false;
+                ButtonDeleteItem.IsEnabled = false;
+                ButtonAddItem.IsEnabled = false;
+                ItemsGroupBox.IsEnabled = false;
+                AddItemErrorLabel.Visibility = Visibility.Hidden;
+                DeleteItemErrorLabel.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {

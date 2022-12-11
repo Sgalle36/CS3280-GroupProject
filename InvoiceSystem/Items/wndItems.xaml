@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InvoiceSystem.Items"
         mc:Ignorable="d"
-        Title="wndItems" Height="336" Width="571">
+        Title="wndItems" Height="336" Width="571" Closed="ShowMainWindow">
     <Grid>
         <Grid Margin="0,4,0,4">
             <DataGrid x:Name="ItemTable" Margin="298,10,27,10" SelectionChanged="ItemTable_SelectionChanged" SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
