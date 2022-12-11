@@ -41,6 +41,7 @@ namespace InvoiceSystem
         /// <param name="prevWindow"></param>
         public static void ShowMainWindow(Window prevWindow)
         {
+            wndMain.RefreshItems();
             wndMain.WindowState = prevWindow.WindowState;
             MatchWindowSize(wndMain, prevWindow);
         }

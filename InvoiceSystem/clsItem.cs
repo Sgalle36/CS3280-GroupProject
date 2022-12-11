@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,19 @@ namespace InvoiceSystem
     /// </summary>
     internal class clsItem : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The item code.
+        /// </summary>
         private string itemCode;
+
+        /// <summary>
+        /// The item description.
+        /// </summary>
         private string itemDesc;
+
+        /// <summary>
+        /// The item cost.
+        /// </summary>
         private decimal cost;
 
         /// <summary>
@@ -26,9 +38,16 @@ namespace InvoiceSystem
         /// <param name="cost">The cost of the item.</param>
         public clsItem(string itemCode, string itemDesc, decimal cost)
         {
-            ItemCode = itemCode;
-            ItemDesc = itemDesc;
-            Cost = cost;
+            try
+            {
+                ItemCode = itemCode;
+                ItemDesc = itemDesc;
+                Cost = cost;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -84,26 +103,71 @@ namespace InvoiceSystem
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        /// <summary>
+        /// Notifies when a property has been changed.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            try
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
-        public override string ToString()
-        {
-            return $"{itemCode} - {itemDesc}";
-        }
-
+        /// <summary>
+        /// Override equals method.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns>Whether this and obj are equal.</returns>
         public override bool Equals(object? obj)
         {
-            if (obj == null) return false;
-            if (obj.GetType() != GetType()) return false;
-            return itemCode.Equals(((clsItem)obj).itemCode);
+            try
+            {
+                if (obj == null) return false;
+                if (obj.GetType() != GetType()) return false;
+                return itemCode.Equals(((clsItem)obj).itemCode);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
 
+        /// <summary>
+        /// Gets the hash code of an item.
+        /// </summary>
+        /// <returns>The hash code.</returns>
         public override int GetHashCode()
         {
-            return itemCode.GetHashCode();
+            try
+            {
+                return itemCode.GetHashCode();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Gets the string representation.
+        /// </summary>
+        /// <returns>The string representation.</returns>
+        public override string ToString()
+        {
+            try
+            {
+                return $"{itemCode} - {itemDesc}";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
         }
     }
 }

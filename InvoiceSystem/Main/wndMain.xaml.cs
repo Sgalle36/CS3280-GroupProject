@@ -30,8 +30,8 @@ namespace InvoiceSystem.Main
         {
             try
             {
-                clsMainLogic = new clsMainLogic();
                 InitializeComponent();
+                RefreshItems();
 
                 DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
                 ComboBoxItems.ItemsSource = clsMainLogic.Items;
@@ -96,6 +96,14 @@ namespace InvoiceSystem.Main
                 HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name,
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Refreshes item information when the program returns to the main window.
+        /// </summary>
+        public void RefreshItems()
+        {
+            clsMainLogic = new clsMainLogic();
         }
 
         /// <summary>
