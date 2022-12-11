@@ -8,14 +8,23 @@
         Title="wndItems" Height="336" Width="571" Closed="ShowMainWindow">
     <Grid>
         <Grid Margin="0,4,0,4">
-            <DataGrid x:Name="ItemTable" Margin="298,10,27,10" SelectionChanged="ItemTable_SelectionChanged" SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid x:Name="ItemTable" Margin="298,10,27,10" SelectionChanged="ItemTable_SelectionChanged" SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
                 <DataGrid.Effect>
                     <DropShadowEffect/>
                 </DataGrid.Effect>
                 <DataGrid.Columns>
-
-
-
+                    <DataGridTextColumn
+                                x:Name="num"
+                                Header="Item Code"
+                                Foreground="Black"
+                                Binding="{Binding ItemCode}"
+                                DisplayIndex="0" />
+                    <DataGridTextColumn x:Name="date"
+                                Header="Item Description"
+                                Binding="{Binding ItemDesc}"  />
+                    <DataGridTextColumn x:Name="items"
+                                Header="Item Cost"
+                                Binding="{Binding Cost}"/>
                 </DataGrid.Columns>
 
             </DataGrid>
