@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -60,6 +61,10 @@ namespace InvoiceSystem.Main
                 LabelInvoiceNumber.Content = clsMainLogic.Invoice.InvoiceNum;
                 TextBoxDate.Text = clsMainLogic.Invoice.InvoiceDate.ToShortDateString();
                 LabelTotalCost.Content = $"${clsMainLogic.Invoice.TotalCost}";
+                DataGridInvoiceItems.ItemsSource = clsMainLogic.Invoice.Items;
+                ComboBoxItems.ItemsSource = clsMainLogic.Items;
+
+                ResetControlsEnabled();
             }
             catch (Exception ex)
             {
@@ -160,7 +165,11 @@ namespace InvoiceSystem.Main
         {
             try
             {
-                DateTime.TryParse(TextBoxDate.Text, out DateTime date);
+                if (string.IsNullOrEmpty(TextBoxDate.Text) || !DateTime.TryParse(TextBoxDate.Text, out DateTime date))
+                {
+                    return;
+                }
+
                 clsMainLogic.Invoice.InvoiceDate = date;
 
                 if (newInvoice)
@@ -174,12 +183,28 @@ namespace InvoiceSystem.Main
                     clsMainLogic.SaveInvoice();
                 }
 
+                RefreshItems();
                 ToggleControlsEnabled();
             }
             catch (Exception ex)
             {
                 HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name,
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Validate the invoice date entered by the user.
+        /// </summary>
+        private void TextChangedValidateDate(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TextBoxDate.Text) || !DateTime.TryParse(TextBoxDate.Text, out DateTime date))
+            {
+                InvoiceDateErrorLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                InvoiceDateErrorLabel.Visibility = Visibility.Hidden;
             }
         }
 
@@ -272,6 +297,33 @@ namespace InvoiceSystem.Main
         }
 
         /// <summary>
+        /// Toggles what elements can be interacted with when creating or editing an invoice.
+        /// </summary>
+        private void ToggleControlsEnabled()
+        {
+            try
+            {
+                ButtonNewInvoice.IsEnabled = !ButtonNewInvoice.IsEnabled;
+                if (!newInvoice)
+                {
+                    ButtonEditInvoice.IsEnabled = !ButtonEditInvoice.IsEnabled;
+                }
+                ButtonSaveInvoice.IsEnabled = !ButtonSaveInvoice.IsEnabled;
+                TextBoxDate.IsEnabled = !TextBoxDate.IsEnabled;
+                DataGridInvoiceItems.IsEnabled = !DataGridInvoiceItems.IsEnabled;
+                ButtonDeleteItem.IsEnabled = !ButtonDeleteItem.IsEnabled;
+                ButtonAddItem.IsEnabled = !ButtonAddItem.IsEnabled;
+                ItemsGroupBox.IsEnabled = !ItemsGroupBox.IsEnabled;
+                AddItemErrorLabel.Visibility = Visibility.Hidden;
+                DeleteItemErrorLabel.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Resets what elements can be interacted with.
         /// </summary>
         private void ResetControlsEnabled()
@@ -297,34 +349,6 @@ namespace InvoiceSystem.Main
         }
 
         /// <summary>
-        /// Toggles what elements can be interacted with when creating or editing an invoice.
-        /// </summary>
-        private void ToggleControlsEnabled()
-        {
-            try
-            {
-                ButtonNewInvoice.IsEnabled = !ButtonNewInvoice.IsEnabled;
-                if (!newInvoice)
-                {
-                    ButtonEditInvoice.IsEnabled = !ButtonEditInvoice.IsEnabled;
-                }
-                ButtonSaveInvoice.IsEnabled = !ButtonSaveInvoice.IsEnabled;
-                TextBoxDate.IsEnabled = !TextBoxDate.IsEnabled;
-                DataGridInvoiceItems.IsEnabled = !DataGridInvoiceItems.IsEnabled;
-                ButtonDeleteItem.IsEnabled = !ButtonDeleteItem.IsEnabled;
-                ButtonAddItem.IsEnabled = !ButtonAddItem.IsEnabled;
-                ItemsGroupBox.IsEnabled = !ItemsGroupBox.IsEnabled;
-                AddItemErrorLabel.Visibility = Visibility.Hidden;
-                DeleteItemErrorLabel.Visibility = Visibility.Hidden;
-            }
-            catch (Exception ex)
-            {
-                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name,
-                    MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Show a popup with error information when an error occurs.
         /// </summary>
         /// <param name="sClass">The name of the class.</param>
@@ -338,7 +362,7 @@ namespace InvoiceSystem.Main
             }
             catch (System.Exception ex)
             {
-                System.IO.File.AppendAllText(@"C:\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
+                Debug.WriteLine("HandleError Exception: " + ex.Message);
             }
         }
     }

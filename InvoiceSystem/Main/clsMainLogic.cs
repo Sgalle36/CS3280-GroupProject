@@ -16,6 +16,11 @@ namespace InvoiceSystem.Main
     internal class clsMainLogic : INotifyCollectionChanged
     {
         /// <summary>
+        /// Tracks the current line item of the invoice
+        /// </summary>
+        private int lineItem;
+
+        /// <summary>
         /// The current invoice loaded in the system.
         /// </summary>
         public clsInvoice Invoice { get; set; }
@@ -34,6 +39,7 @@ namespace InvoiceSystem.Main
             {
                 Invoice = new clsInvoice(null, DateTime.Now, 0, new List<clsItem>());
                 Items = new ObservableCollection<clsItem>(GetAllItems());
+                lineItem = 1;
             }
             catch (Exception ex)
             {
@@ -50,9 +56,8 @@ namespace InvoiceSystem.Main
             try
             {
                 Invoice = GetInvoice(invoiceNum);
-                List<clsItem> availableItems = (GetAllItems());
-                availableItems.RemoveAll(i => Invoice.Items.Contains(i));
-                Items = new ObservableCollection<clsItem>(availableItems);
+                Items = new ObservableCollection<clsItem>(GetAllItems());
+                lineItem = Invoice.Items.Count + 1;
             }
             catch (Exception ex)
             {
@@ -104,7 +109,7 @@ namespace InvoiceSystem.Main
                 DataRow[] dr = ds.Tables[0].AsEnumerable().ToArray();
                 foreach (DataRow row in dr)
                 {
-                    items.Add(new clsItem((string)row.ItemArray[0], (string)row.ItemArray[1], (Decimal)row.ItemArray[2]));
+                    items.Add(new clsItem((string)row.ItemArray[0], (string)row.ItemArray[1], (int)row.ItemArray[2], (Decimal)row.ItemArray[3]));
                 }
 
                 return items;
@@ -148,13 +153,20 @@ namespace InvoiceSystem.Main
         {
             try
             {
-                List<clsItem> items = GetAllItems();
-                items.RemoveAll(i => Items.Contains(i));
-                Invoice.Items = new ObservableCollection<clsItem>(items);
+                Items = new ObservableCollection<clsItem>(GetAllItems());
 
-                items = GetAllItems();
-                items.RemoveAll(i => Invoice.Items.Contains(i));
-                Items = new ObservableCollection<clsItem>(items);
+                if (Invoice.InvoiceNum != null)
+                {
+                    Invoice.Items = new ObservableCollection<clsItem>(GetInvoiceItems((int)Invoice.InvoiceNum));
+                }
+                else //new invoice
+                {
+                    Invoice.Items.ToList().ForEach(item =>
+                    {
+                        item.ItemDesc = Items.FirstOrDefault(updated => item.ItemCode == updated.ItemCode).ItemDesc;
+                        item.Cost = Items.FirstOrDefault(updated => item.ItemCode == updated.ItemCode).Cost;
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -177,7 +189,7 @@ namespace InvoiceSystem.Main
 
                     for (int i = 0; i < Invoice.Items.Count; i++)
                     {
-                        App.db.ExecuteNonQuery(clsMainSQL.AddItem((int)Invoice.InvoiceNum, i, Invoice.Items.ElementAt(i).ItemCode));
+                        App.db.ExecuteNonQuery(clsMainSQL.AddItem((int)Invoice.InvoiceNum, i + 1, Invoice.Items.ElementAt(i).ItemCode));
                     }
                 }
             }
@@ -196,12 +208,12 @@ namespace InvoiceSystem.Main
             {
                 if (Invoice != null)
                 {
-                    App.db.ExecuteNonQuery(clsMainSQL.UpdateInvoice((int)Invoice.InvoiceNum, Invoice.InvoiceDate, Invoice.Items.Sum(i => i.Cost)));
+                    App.db.ExecuteNonQuery(clsMainSQL.UpdateInvoice((int)Invoice.InvoiceNum, Invoice.InvoiceDate, Invoice.TotalCost));
                     App.db.ExecuteNonQuery(clsMainSQL.RemoveAllItems((int)Invoice.InvoiceNum));
 
                     for (int i = 0; i < Invoice.Items.Count; i++)
                     {
-                        App.db.ExecuteNonQuery(clsMainSQL.AddItem((int)Invoice.InvoiceNum, i, Invoice.Items.ElementAt(i).ItemCode));
+                        App.db.ExecuteNonQuery(clsMainSQL.AddItem((int)Invoice.InvoiceNum, i + 1, Invoice.Items.ElementAt(i).ItemCode));
                     }
                 }
             }
@@ -219,8 +231,8 @@ namespace InvoiceSystem.Main
         {
             try
             {
-                Invoice.Items.Add(item);
-                Items.Remove(item);
+                clsItem invoiceItem = new clsItem(item.ItemCode, item.ItemDesc, lineItem++, item.Cost);
+                Invoice.Items.Add(invoiceItem);
             }
             catch (Exception ex)
             {
@@ -237,7 +249,6 @@ namespace InvoiceSystem.Main
             try
             {
                 Invoice.Items.Remove(item);
-                Items.Add(item);
             }
             catch (Exception ex)
             {
