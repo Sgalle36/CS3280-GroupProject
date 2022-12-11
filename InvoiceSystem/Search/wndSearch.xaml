@@ -22,6 +22,9 @@
                     <DataGridTextColumn x:Name="date"
                                 Header="Invoice Date"
                                 Binding="{Binding InvoiceDate, StringFormat=\{0:MM/dd/yyyy\}}"  />
+                    <DataGridTextColumn x:Name="cost"
+                                Header="Invoice Cost"
+                                Binding="{Binding TotalCost, StringFormat=\{0:c\}}"/>                    
                     <DataGridTextColumn x:Name="items"
                                 Header="Invoice Items"
                                 Binding="{Binding Items}"/>

@@ -24,7 +24,7 @@
                                 Binding="{Binding ItemDesc}"  />
                     <DataGridTextColumn x:Name="items"
                                 Header="Item Cost"
-                                Binding="{Binding Cost}"/>
+                                Binding="{Binding Cost, StringFormat=\{0:c\}}"/>
                 </DataGrid.Columns>
 
             </DataGrid>
