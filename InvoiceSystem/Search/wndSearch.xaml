@@ -11,7 +11,22 @@
     <Viewbox Stretch="Fill">
         <Canvas Width="730" Height="396">
             <Grid Height="150" Width="730" Background="Gray" Canvas.Top="0"/>
-            <DataGrid x:Name="dtgSearchInvoice" Height="371" Width="530" d:ItemsSource="{Binding}" Canvas.Left="181" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="#FFA9A6A6">
+            <DataGrid x:Name="dtgSearchInvoice" Height="371" Width="530" Canvas.Left="181" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="Black" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                                x:Name="num"
+                                Header="Invoice Number"
+                                Foreground="Black"
+                                Binding="{Binding InvoiceNum}"
+                                DisplayIndex="0" />
+                    <DataGridTextColumn x:Name="date"
+                                Header="Invoice Date"
+                                Binding="{Binding InvoiceDate, StringFormat=\{0:MM/dd/yyyy\}}"  />
+                    <DataGridTextColumn x:Name="items"
+                                Header="Invoice Items"
+                                Binding="{Binding Items}"/>
+                </DataGrid.Columns>
+
             </DataGrid>
             <StackPanel VerticalAlignment="Center" Background="#FFDEDEDE" Height="396" Width="162" HorizontalAlignment="Left">
                 <StackPanel.Effect>
