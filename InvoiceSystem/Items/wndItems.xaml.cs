@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Reflection;
 using System.Data;
+using System.Windows.Markup;
 
 //This is the front end code for the search window
 //Author: Austin Griffith
@@ -235,7 +236,9 @@ namespace InvoiceSystem.Items
             if (ItemTable.SelectedCells.Count > 0)
             {
                 CodeBox.Text = (ItemTable.SelectedCells[0].Column.GetCellContent(ItemTable.SelectedItem) as TextBlock).Text;
-                CostBox.Text = (ItemTable.SelectedCells[2].Column.GetCellContent(ItemTable.SelectedItem) as TextBlock).Text;
+                string newCost = (ItemTable.SelectedCells[2].Column.GetCellContent(ItemTable.SelectedItem) as TextBlock).Text;
+                newCost = newCost.Substring(1);
+                CostBox.Text = newCost;
                 DescBox.Text = (ItemTable.SelectedCells[1].Column.GetCellContent(ItemTable.SelectedItem) as TextBlock).Text;
                 deleteBtn.IsEnabled = true;
                 editBtn.IsEnabled = true;
