@@ -114,7 +114,7 @@ namespace InvoiceSystem.Items
                 CodeBox.Text = "";
                 CostBox.Text = "";
                 DescBox.Text = "";
-
+                inputLbl.Visibility = Visibility.Hidden;
 
                 fillData();
             }
