@@ -50,28 +50,6 @@ namespace InvoiceSystem.Main
         }
 
         /// <summary>
-        /// Generates an SQL query to add a new item to the specified invoice.
-        /// </summary>
-        /// <param name="InvoiceNum">The invoice number</param>
-        /// <param name="LineItemNum">The invoice line item number</param>
-        /// <param name="ItemCode">The item code</param>
-        /// <returns>The SQL Query</returns>
-        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
-        public static string AddItem(int InvoiceNum, int LineItemNum, string ItemCode)
-        {
-            try
-            {
-                string sSQL = $"INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) Values ({InvoiceNum}, {LineItemNum}, '{ItemCode}')";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Generates an SQL query to get the information for the specified invoice.
         /// </summary>
         /// <param name="InvoiceNum">The invoice number</param>
@@ -82,47 +60,6 @@ namespace InvoiceSystem.Main
             try
             {
                 string sSQL = $"SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE InvoiceNum = {InvoiceNum}";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Generates an SQL query to get all of the items belonging to the specified invoice.
-        /// </summary>
-        /// <param name="InvoiceNum">The invoice number</param>
-        /// <returns>The SQL Query</returns>
-        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
-        public static string GetInvoiceItems(int InvoiceNum)
-        {
-            try
-            {
-                string sSQL  = $"SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc ";
-                sSQL        += $"WHERE LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = {InvoiceNum} ";
-                sSQL        += $"ORDER BY LineItems.ItemCode";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Generates an SQL query to get all available items for invoicing.
-        /// </summary>
-        /// <returns>The SQL Query</returns>
-        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
-        public static string GetAllItems()
-        {
-            try
-            {
-                string sSQL = $"SELECT ItemCode, ItemDesc, Cost from ItemDesc ORDER BY ItemCode";
                 return sSQL;
             }
             catch (Exception ex)
@@ -154,17 +91,40 @@ namespace InvoiceSystem.Main
         }
 
         /// <summary>
-        /// Generates an SQL query to remove the specified item from the invoice.
+        /// Generates an SQL query to add a new item to the specified invoice.
         /// </summary>
         /// <param name="InvoiceNum">The invoice number</param>
+        /// <param name="LineItemNum">The invoice line item number</param>
         /// <param name="ItemCode">The item code</param>
         /// <returns>The SQL Query</returns>
         /// <exception cref="Exception">Was unable to create the SQL Query</exception>
-        public static string RemoveItem(int InvoiceNum, string ItemCode)
+        public static string AddItem(int InvoiceNum, int LineItemNum, string ItemCode)
         {
             try
             {
-                string sSQL  = $"DELETE FROM LineItems WHERE InvoiceNum = {InvoiceNum} AND ItemCode = '{ItemCode}'";
+                string sSQL = $"INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) Values ({InvoiceNum}, {LineItemNum}, '{ItemCode}')";
+                return sSQL;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Generates an SQL query to get all of the items belonging to the specified invoice.
+        /// </summary>
+        /// <param name="InvoiceNum">The invoice number</param>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
+        public static string GetInvoiceItems(int InvoiceNum)
+        {
+            try
+            {
+                string sSQL  = $"SELECT ItemDesc.ItemCode, ItemDesc.ItemDesc, LineItems.LineItemNum, ItemDesc.Cost FROM LineItems, ItemDesc ";
+                sSQL        += $"WHERE LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = {InvoiceNum} ";
+                sSQL        += $"ORDER BY LineItems.LineItemNum";
                 return sSQL;
             }
             catch (Exception ex)
@@ -185,6 +145,25 @@ namespace InvoiceSystem.Main
             try
             {
                 string sSQL = $"DELETE FROM LineItems WHERE InvoiceNum = {InvoiceNum}";
+                return sSQL;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Generates an SQL query to get all available items for invoicing.
+        /// </summary>
+        /// <returns>The SQL Query</returns>
+        /// <exception cref="Exception">Was unable to create the SQL Query</exception>
+        public static string GetAllItems()
+        {
+            try
+            {
+                string sSQL = $"SELECT ItemCode, ItemDesc, Cost from ItemDesc ORDER BY ItemCode";
                 return sSQL;
             }
             catch (Exception ex)

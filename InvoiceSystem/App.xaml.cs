@@ -50,7 +50,7 @@ namespace InvoiceSystem
             }
             catch (Exception ex)
             {
-                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodBase.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -66,7 +66,7 @@ namespace InvoiceSystem
             }
             catch (Exception ex)
             {
-                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodBase.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -82,7 +82,7 @@ namespace InvoiceSystem
             }
             catch (Exception ex)
             {
-                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodBase.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -105,7 +105,25 @@ namespace InvoiceSystem
             }
             catch (Exception ex)
             {
-                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+                HandleError(MethodBase.GetCurrentMethod().DeclaringType.Name, MethodBase.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Show a popup with error information when an error occurs.
+        /// </summary>
+        /// <param name="sClass">The name of the class.</param>
+        /// <param name="sMethod">The name of the method.</param>
+        /// <param name="sMessage">The error message.</param>
+        private static void HandleError(string sClass, string sMethod, string sMessage)
+        {
+            try
+            {
+                Debug.WriteLine(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine("HandleError Exception: " + ex.Message);
             }
         }
     }

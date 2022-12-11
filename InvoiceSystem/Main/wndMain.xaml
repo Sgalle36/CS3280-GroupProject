@@ -75,7 +75,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Date: "/>
-                    <TextBox x:Name="TextBoxDate" Width="166" IsEnabled="False" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TextBoxDate" Width="166" IsEnabled="False" VerticalAlignment="Center" TextChanged="TextChangedValidateDate"/>
+                    <Label x:Name="InvoiceDateErrorLabel" Foreground="Red" Visibility="Hidden">Error: Please enter a valid date.</Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Total Cost: "/>

@@ -26,6 +26,11 @@ namespace InvoiceSystem
         private string itemDesc;
 
         /// <summary>
+        /// The item's invoice line number.
+        /// </summary>
+        private int itemLine;
+
+        /// <summary>
         /// The item cost.
         /// </summary>
         private decimal cost;
@@ -42,6 +47,27 @@ namespace InvoiceSystem
             {
                 ItemCode = itemCode;
                 ItemDesc = itemDesc;
+                ItemLine = -1;
+                Cost = cost;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name} -> {ex.Message}");
+            }
+        }
+        /// <summary>
+        /// Creates a new clsItem object.
+        /// </summary>
+        /// <param name="itemCode">The item code.</param>
+        /// <param name="itemDesc">The description of the item.</param>
+        /// <param name="cost">The cost of the item.</param>
+        public clsItem(string itemCode, string itemDesc, int itemLine, decimal cost)
+        {
+            try
+            {
+                ItemCode = itemCode;
+                ItemDesc = itemDesc;
+                ItemLine = itemLine;
                 Cost = cost;
             }
             catch (Exception ex)
@@ -70,13 +96,29 @@ namespace InvoiceSystem
         /// The description of the item.
         /// </summary>
         public string ItemDesc
-    {
+        {
             get { return itemDesc; }
             set
             {
                 if (value != itemDesc)
                 {
                     itemDesc = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// The invoice line number of the item.
+        /// </summary>
+        public int ItemLine
+        {
+            get { return itemLine; }
+            set
+            {
+                if (value != itemLine)
+                {
+                    itemLine = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -130,7 +172,7 @@ namespace InvoiceSystem
             {
                 if (obj == null) return false;
                 if (obj.GetType() != GetType()) return false;
-                return itemCode.Equals(((clsItem)obj).itemCode);
+                return itemCode.Equals(((clsItem)obj).itemCode) && itemLine == ((clsItem)obj).itemLine;
             }
             catch (Exception ex)
             {
@@ -146,7 +188,7 @@ namespace InvoiceSystem
         {
             try
             {
-                return itemCode.GetHashCode();
+                return itemCode.GetHashCode() + itemLine.GetHashCode();
             }
             catch (Exception ex)
             {
