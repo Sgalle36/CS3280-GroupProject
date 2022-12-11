@@ -7,19 +7,17 @@
         xmlns:Emit="clr-namespace:System.Reflection.Emit;assembly=System.Reflection.Emit.ILGeneration" x:Class="InvoiceSystem.Main.wndMain"
         mc:Ignorable="d"
         Title="wndMain" Height="450" Width="800">
-    <Window.DataContext>
-        <local:clsMainLogic/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" VerticalAlignment="Center" Height="25">
-            <MenuItem Header="_File" Height="25">
-                <MenuItem Header="_New Invoice" />
-            </MenuItem>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="25">
             <MenuItem Header="_Search" Height="25">
                 <MenuItem Header="_Find Invoice" Click="ShowSearchWindow" />
             </MenuItem>
@@ -28,46 +26,64 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" x:Name="ItemsGroupBox" Header="Add Items" IsEnabled="False">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
+                        <Label>Item</Label>
+                        <ComboBox x:Name="ComboBoxItems" SelectionChanged="SelectionChangedNewItem"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Label>Price</Label>
+                        <Label x:Name="LabelItemPrice" Content="0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="ButtonAddItem" Click="ClickSaveItem">Add Item</Button>
+                        <Label x:Name="AddItemErrorLabel" Foreground="Red" Visibility="Hidden">Error: Please select an item.</Label>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Remove Items">
+                <StackPanel Orientation="Vertical">
+                    <Button Grid.Row="0" Grid.Column="1" x:Name="ButtonDeleteItem" Click="ClickDeleteItem" IsEnabled="False">Delete Item</Button>
+                    <Label x:Name="DeleteItemErrorLabel" Foreground="Red" Visibility="Hidden">Error: Please select an item.</Label>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
-                <Button Content="New Invoice" Click="NewInvoice"/>
-                <Button Content="Edit Invoice" Click="EditInvoice"/>
-                <Button Content="Save Changes" Click="SaveInvoice"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button x:Name="ButtonNewInvoice" Content="New Invoice" Click="ClickNewInvoice"/>
+                <Button x:Name="ButtonEditInvoice" Content="Edit Invoice" Click="ClickEditInvoice" IsEnabled="False"/>
+                <Button x:Name="ButtonSaveInvoice" Content="Save Changes" Click="ClickSaveInvoice" IsEnabled="False"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="0" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Invoice #"/>
-                    <Label Content="{Binding Invoice.InvoiceNum}"/>
+                    <Label x:Name="LabelInvoiceNumber"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Date: "/>
-                    <TextBox Text="{Binding Invoice.InvoiceDate}"/>
+                    <TextBox x:Name="TextBoxDate" Width="166" IsEnabled="False" VerticalAlignment="Center"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Total Cost: "/>
+                    <Label x:Name="LabelTotalCost"/>
+                </StackPanel>
+                <Label>Items</Label>
             </StackPanel>
-
-            <DataGrid Grid.Row="1" 
-                  x:Name="DataGridInvoiceItems"
-                      ItemsSource="{Binding InvoiceItems, Mode=OneWay}"
-                  AutoGenerateColumns="False"
-                  >
-                <DataGrid.Columns>
-                    <DataGridComboBoxColumn x:Name="DataGridComboBoxItems"
-                                        Header="Item Code"
-                                        DisplayMemberPath="ItemCode"
-                                        SelectedValuePath="ItemCode"
-                                        ItemsSource="{Binding Items, Mode=OneWay}"
-                                        SelectedValueBinding="{Binding ItemCode, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Item Description" Binding="{Binding ItemDesc, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Item Cost" Binding="{Binding Cost, Mode=OneWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DataGrid Grid.Row="2" x:Name="DataGridInvoiceItems" AutoGenerateColumns="True" IsEnabled="False"/>
         </Grid>
     </Grid>
 </Window>

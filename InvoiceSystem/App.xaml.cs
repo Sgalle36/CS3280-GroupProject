@@ -17,10 +17,14 @@ namespace InvoiceSystem
     /// </summary>
     public partial class App : Application
     {
-        //use for all database calls
+        /// <summary>
+        /// Used for all database calls.
+        /// </summary>
         internal static clsDataAccess db = new clsDataAccess();
 
-        //
+        /// <summary>
+        /// Used to ensure the app stays open until the main window is closed.
+        /// </summary>
         internal static wndMain wndMain = (wndMain)Current.MainWindow;
 
         /// <summary>
